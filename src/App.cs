@@ -12,7 +12,7 @@ public class App
         var bankAccService = new BankAccountService();
         var personService = new PersonService(bankAccService);
         
-        personService.SignUp("Khaled", "Khaled", "Khaled", "20");
+        personService.SignUp("Khaled", "Khaled", "Khaled", "99", "parede@uniãobolsolua.lulalivre", "123456789Dlufa!@15");
     }
 
 }

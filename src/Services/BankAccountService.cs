@@ -6,6 +6,8 @@ namespace ConsoleApp1.Services;
 
 public class BankAccountService : IBankAccountService
 {
+    //Creates the account, if the user is one of the first 50 users, they will have a balance of 100
+    //This method is only temporary, for I have to add Dependency Injection to the project to have IoC.
     public void CreateAccount(Person person)
     {
         person.Account.Balance = 0;

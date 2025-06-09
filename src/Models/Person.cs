@@ -4,6 +4,7 @@ public class Person
 {
     private int id;
     private string email;
+    private string password;
     private string name;
     private string middleName;
     private string lastName;
@@ -15,19 +16,9 @@ public class Person
     public string MiddleName { get => middleName; set => middleName = value; }
     public string LastName { get => lastName; set => lastName = value; }
     public int Age { get => age; set => age = value; }
+    public string Email { get => email; set => email = value; }
+    public string Password { get => password; set => password = value; }
     public BankAccount Account  { get => account; set => account = value; }
     
-    //Creates the account, if the user is one of the first 50 users, they will have a balance of 100
-    //This method is only temporary, for I have to add Dependency Injection to the project to have IoC.
-    public void CreateAccount()
-    {
-        Account.Balance = 0;
-        Account.EligibleLoanAmount = 0;
-        Account.EligibleCreditAmount = 0;
-        if (Id > 50) return; //If the user is not one of the first 50 users, the function ends.
-        Account.Balance += 100;
-        Console.WriteLine("Congrats! You have been given a balance of U$100 for being one of the first 50 customers.");
-        Console.WriteLine("");
-        Console.WriteLine("");
-    }
+
 }

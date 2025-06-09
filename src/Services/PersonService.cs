@@ -1,47 +1,56 @@
 using ConsoleApp1.Interfaces.IServices;
 using ConsoleApp1.Models;
+using ConsoleApp1.Utils;
+using ConsoleApp1.Validation;
 
 namespace ConsoleApp1.Services;
 
 public class PersonService : IPersonService
 {
     private readonly IBankAccountService _bankAccountService;
+    UserServiceValidators validator = new();
+    Util util = new();
+    
 
     public PersonService(IBankAccountService bankAccountService)
     {
         _bankAccountService = bankAccountService;
     }
 
-    public Person? SignUp(string? name, string? middleName, string? lastName, string? ageToBeConverted)
+    public Person? SignUp(string? name, string? middleName, string? lastName, string? ageToBeConverted, string? emailToValidate, string? password)
     {
-        //"Can this be converted to an int? if it does, then age = parsedAge (user input), if it does not, then age = 0"
-        int age = int.TryParse(ageToBeConverted, out int parsedAge) ? parsedAge : 0;
         
-        if (!IsValidName(name) || !IsValidName(middleName) || !IsValidName(lastName))
+        int age = util.ConvertAge(ageToBeConverted); //This you turn age into 0 if it is not a number or null.
+        switch (true)
         {
-            Console.WriteLine("Invalid or empty names. Please try again.");
-            Console.WriteLine("Try to check for empty spaces and try again.");
-            return null;
-        }
-
-        switch (age)
-        {
-            case <= 0: //If you check it, trying to put letters on the age field will return 0.
+            case true when !validator.IsValidEmail(emailToValidate):
+                Console.WriteLine("Invalid email. Please try again.");
+                return null;
+            case true when !validator.IsValidAge(age):
                 Console.WriteLine("Invalid age. Please try again.");
                 return null;
-            case < 18:
-                Console.WriteLine("You are not old enough to use our services.");
+            case true when !validator.IsValidName(name) || !validator.IsValidName(middleName) || !validator.IsValidName(lastName):
+                Console.WriteLine("Invalid or empty names. Please try again.");
+                Console.WriteLine("Try to check for empty spaces and try again.");
                 return null;
-            case >= 99:
-                Console.WriteLine("Invalid age. I am sure you are not that old.");
+            case true when !validator.IsValidPassword(password):
+                Console.WriteLine("Invalid password. Please try again.");
+                Console.WriteLine("Your password must contain at least one uppercase letter, one lowercase letter, one digit and one special character.");
+                Console.WriteLine("Your password must be between 10 and 23 characters long.");
                 return null;
+            default:
+                break;
         }
-
+        
+        string email = emailToValidate!;
+        
         Person person = new Person();
-        person.Name = CapitalizeFirstLetter(name!);
-        person.MiddleName = CapitalizeFirstLetter(middleName!);
-        person.LastName = CapitalizeFirstLetter(lastName!);
+        person.Name = util.CapitalizeFirstLetter(name!);
+        person.MiddleName = util.CapitalizeFirstLetter(middleName!);
+        person.LastName = util.CapitalizeFirstLetter(lastName!);
         person.Age = age;
+        person.Email = email;
+        person.Password = password!;
         person.Account = new BankAccount();
 
     /*
@@ -65,18 +74,10 @@ public class PersonService : IPersonService
         Console.WriteLine(
             "Remember! The more you use our services, the better credit and loan deals you will get.");
         Console.WriteLine("--------------------------------");
+        Console.WriteLine(person.Email);
         var naoTerminar = Console.ReadLine();
         return person;
     }
-    string CapitalizeFirstLetter(string name)
-    {
-        return name.Substring(0, 1).ToUpper() + name.Substring(1);
-    }
 
-    //Uses built-in methods to check if the name is valid, contains a digit or has any spaces.
-    bool IsValidName(string? str)
-    {
-        return !string.IsNullOrEmpty(str) && !str.Any(char.IsDigit) && !str.Any(char.IsWhiteSpace) && str.All(char.IsAsciiLetter);
-    }
     
 }

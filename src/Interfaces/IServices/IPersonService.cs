@@ -4,5 +4,5 @@ namespace ConsoleApp1.Interfaces.IServices;
 
 public interface IPersonService
 {
-    Person? SignUp(string? name, string? middleName, string? lastName, string? ageToBeConverted);
+    Person? SignUp(string? name, string? middleName, string? lastName, string? ageToBeConverted, string? emailToValidate, string? password);
 }
