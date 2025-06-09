@@ -44,14 +44,17 @@ public class PersonService : IPersonService
         
         string email = emailToValidate!;
         
-        Person person = new Person();
-        person.Name = util.CapitalizeFirstLetter(name!);
-        person.MiddleName = util.CapitalizeFirstLetter(middleName!);
-        person.LastName = util.CapitalizeFirstLetter(lastName!);
-        person.Age = age;
-        person.Email = email;
-        person.Password = password!;
-        person.Account = new BankAccount();
+        Person person = new Person
+        {
+            Name = util.CapitalizeFirstLetter(name!),
+            MiddleName = util.CapitalizeFirstLetter(middleName!),
+            LastName = util.CapitalizeFirstLetter(lastName!),
+            Age = age,
+            Email = email,
+            Password = password!,
+            Account = new BankAccount(),
+        };
+
 
     /*
      The app is being currently developed to work on the terminal.

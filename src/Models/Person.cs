@@ -19,6 +19,4 @@ public class Person
     public string Email { get => email; set => email = value; }
     public string Password { get => password; set => password = value; }
     public BankAccount Account  { get => account; set => account = value; }
-    
-
 }
