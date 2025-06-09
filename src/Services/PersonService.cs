@@ -1,24 +1,21 @@
-namespace ConsoleApp1.Person;
+using ConsoleApp1.Interfaces.IServices;
+using ConsoleApp1.Models;
 
-public class PersonService
+namespace ConsoleApp1.Services;
+
+public class PersonService : IPersonService
 {
-     public Person? SignUp()
+    private readonly IBankAccountService _bankAccountService;
+
+    public PersonService(IBankAccountService bankAccountService)
     {
-        Console.WriteLine("Insert your first name:");
-        string? name = Console.ReadLine();
-        
-        Console.WriteLine("Insert yout middle name:");
-        string? middleName = Console.ReadLine();
-        
-        Console.WriteLine("Insert your last name:");
-        string? lastName = Console.ReadLine();
-        
-        Console.WriteLine("Now please, insert your age:");
-        string? ageToBeConverted = Console.ReadLine();
-        
+        _bankAccountService = bankAccountService;
+    }
+
+    public Person? SignUp(string? name, string? middleName, string? lastName, string? ageToBeConverted)
+    {
         //"Can this be converted to an int? if it does, then age = parsedAge (user input), if it does not, then age = 0"
         int age = int.TryParse(ageToBeConverted, out int parsedAge) ? parsedAge : 0;
-        Console.WriteLine("");
         
         if (!IsValidName(name) || !IsValidName(middleName) || !IsValidName(lastName))
         {
@@ -45,7 +42,7 @@ public class PersonService
         person.MiddleName = CapitalizeFirstLetter(middleName!);
         person.LastName = CapitalizeFirstLetter(lastName!);
         person.Age = age;
-        person.Account = new BankAccount.BankAccount();
+        person.Account = new BankAccount();
 
     /*
      The app is being currently developed to work on the terminal.
@@ -54,7 +51,7 @@ public class PersonService
      */
         Console.WriteLine("Creating account...");
         Console.WriteLine("--------------------------------");
-        person.CreateAccount();
+        _bankAccountService.CreateAccount(person);
 
         Console.WriteLine("Welcome to BlueLight bank, " + person.Name + "!");
         Console.WriteLine("Your balance is $" + person.Account.Balance);
@@ -68,6 +65,7 @@ public class PersonService
         Console.WriteLine(
             "Remember! The more you use our services, the better credit and loan deals you will get.");
         Console.WriteLine("--------------------------------");
+        var naoTerminar = Console.ReadLine();
         return person;
     }
     string CapitalizeFirstLetter(string name)
@@ -81,5 +79,4 @@ public class PersonService
         return !string.IsNullOrEmpty(str) && !str.Any(char.IsDigit) && !str.Any(char.IsWhiteSpace) && str.All(char.IsAsciiLetter);
     }
     
-
 }

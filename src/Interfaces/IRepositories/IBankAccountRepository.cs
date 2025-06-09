@@ -1,6 +1,6 @@
 namespace ConsoleApp1.Interfaces.IRepositories;
 
-public interface IBankRepository
+public interface IBankAccountRepository
 {
     
 }

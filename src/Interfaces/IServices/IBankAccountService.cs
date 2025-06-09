@@ -1,6 +1,8 @@
+using ConsoleApp1.Models;
+
 namespace ConsoleApp1.Interfaces.IServices;
 
-public interface IBankService
+public interface IBankAccountService
 {
-    public void CreateAccount();
+    public void CreateAccount(Person person);
 }

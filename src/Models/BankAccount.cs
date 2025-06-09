@@ -1,4 +1,4 @@
-namespace ConsoleApp1.BankAccount;
+namespace ConsoleApp1.Models;
 
 public class BankAccount
 {
