@@ -1,4 +1,4 @@
-namespace ConsoleApp1;
+namespace ConsoleApp1.Person;
 
 public class Person
 {
@@ -8,17 +8,18 @@ public class Person
     private string middleName;
     private string lastName;
     private int age;
-    public BankAccount account;
+    public BankAccount.BankAccount account;
     
     public int Id { get => id; set => id = value; } //This one will have no value for now
     public string Name { get => name; set => name = value; }
     public string MiddleName { get => middleName; set => middleName = value; }
     public string LastName { get => lastName; set => lastName = value; }
     public int Age { get => age; set => age = value; }
-    public BankAccount Account  { get => account; set => account = value; }
+    public BankAccount.BankAccount Account  { get => account; set => account = value; }
     
     //Creates the account, if the user is one of the first 50 users, they will have a balance of 100
-    public void createAccount()
+    //This method is only temporary, for I have to add Dependency Injection to the project to have IoC.
+    public void CreateAccount()
     {
         Account.Balance = 0;
         Account.EligibleLoanAmount = 0;
@@ -30,5 +31,4 @@ public class Person
         Console.WriteLine("");
     }
     
-
 }
