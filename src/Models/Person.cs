@@ -4,7 +4,7 @@ public class Person
 {
     private int id;
     private string email;
-    private string password;
+    private string hashedpassword;
     private string name;
     private string middleName;
     private string lastName;
@@ -17,6 +17,6 @@ public class Person
     public string LastName { get => lastName; set => lastName = value; }
     public int Age { get => age; set => age = value; }
     public string Email { get => email; set => email = value; }
-    public string Password { get => password; set => password = value; }
+    public string Password { get => hashedpassword; set => hashedpassword = value; }
     public BankAccount Account  { get => account; set => account = value; }
 }
