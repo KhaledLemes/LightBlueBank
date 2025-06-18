@@ -1,3 +1,5 @@
+using ConsoleApp1.Controllers;
+using ConsoleApp1.DTOs;
 using ConsoleApp1.Interfaces.IServices;
 using ConsoleApp1.Repositories;
 using ConsoleApp1.Services;
@@ -11,8 +13,11 @@ public class App
     {
         var bankAccService = new BankAccountService();
         var personService = new PersonService(bankAccService);
-        
-        personService.SignUp("Khaled", "Khaled", "lme", "", "parede@uniãobolsolua.lulalivre", "123456789Dlufa!@15");
+        var personController = new PersonController(personService); //---------
+        var personDTO = new SignUpDto();        
+
+        //personService.SignUp("Kh", "Khaled", "lme", "91", "parede@fger.com", "123456789Dlufa!@15");
+        personController.SignUp(personDTO);
     }
 
 }

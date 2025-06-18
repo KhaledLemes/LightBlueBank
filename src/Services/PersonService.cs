@@ -1,5 +1,6 @@
 using ConsoleApp1.Interfaces.IServices;
 using ConsoleApp1.Models;
+using ConsoleApp1.Repositories;
 using ConsoleApp1.Utils;
 using ConsoleApp1.Validation;
 
@@ -7,20 +8,22 @@ namespace ConsoleApp1.Services;
 
 public class PersonService : IPersonService
 {
+    private readonly PersonRepository _personRepository;
     private readonly IBankAccountService _bankAccountService;
     UserServiceValidators validator = new();
     Util util = new();
     
 
-    public PersonService(IBankAccountService bankAccountService)
+    public PersonService(IBankAccountService bankAccountService/*, PersonRepository personRepository*/)
     {
         _bankAccountService = bankAccountService;
+        //_personRepository = personRepository;
     }
-
+    
+    //For now there is no practical use to make it return Person, but it will make it better to work with the project on the future
     public Person? SignUp(string? name, string? middleName, string? lastName, string? ageToBeConverted, string? emailToValidate, string? password)
     {
-        
-        int age = util.ConvertAge(ageToBeConverted); //This you turn age into 0 if it is not a number or null.
+        int age = util.ConvertAge(ageToBeConverted); //This will turn the age to 0 if it is not a number or null.
         switch (true)
         {
             case true when !validator.IsValidEmail(emailToValidate):
@@ -30,7 +33,7 @@ public class PersonService : IPersonService
                 Console.WriteLine("Invalid age. Please try again.");
                 return null;
             case true when !validator.IsValidName(name) || !validator.IsValidName(middleName) || !validator.IsValidName(lastName):
-                Console.WriteLine("Invalid or empty names. Please try again.");
+                Console.WriteLine("Invalid, too small or empty names. Please try again.");
                 Console.WriteLine("Try to check for empty spaces and try again.");
                 return null;
             case true when !validator.IsValidPassword(password):
@@ -41,8 +44,8 @@ public class PersonService : IPersonService
             default:
                 break;
         }
-        
         string email = emailToValidate!;
+        //At this point, the final user cannot put incorrect information.
         
         Person person = new Person
         {
@@ -65,7 +68,7 @@ public class PersonService : IPersonService
         Console.WriteLine("--------------------------------");
         _bankAccountService.CreateAccount(person);
 
-        Console.WriteLine("Welcome to BlueLight bank, " + person.Name + "!");
+        Console.WriteLine("Welcome to BlueLight bank, " + person.Name + "!" + " " + person.PersonId);;
         Console.WriteLine("Your balance is $" + person.Account.Balance);
         Console.WriteLine("Check below credit card and loan offers and see how much you can get!");
         Console.WriteLine("");

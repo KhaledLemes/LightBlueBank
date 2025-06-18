@@ -8,7 +8,7 @@ public class UserServiceValidators
     //Uses built-in methods to check if the name is valid, contains a digit or has any spaces.
     public bool IsValidName(string? str)
     {
-        return !string.IsNullOrEmpty(str) && !str.Any(char.IsDigit) && !str.Any(char.IsWhiteSpace) && str.All(char.IsAsciiLetter);
+        return !string.IsNullOrEmpty(str) && !str.Any(char.IsDigit) && !str.Any(char.IsWhiteSpace) && str.All(char.IsAsciiLetter) && str.Length >= 2 && str.Length <= 25;
     }
     
     public bool IsValidEmail(string? email)
